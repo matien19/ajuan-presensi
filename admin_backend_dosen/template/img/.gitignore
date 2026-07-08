@@ -1,0 +1,7 @@
+# Abaikan semua file
+*
+
+# Kecuali file berikut
+!.gitignore
+!dosen-lanang.png
+!dosen-wadon.png

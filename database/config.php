@@ -2,7 +2,7 @@
 date_default_timezone_set('Asia/Jakarta');
 session_start();
 
-$con = mysqli_connect('localhost','root','','db_proyekperadaban'); 
+$con = mysqli_connect('localhost','root','','ajuan_presensi'); 
 
 if (!$con) 
 {

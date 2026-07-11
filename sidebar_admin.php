@@ -78,6 +78,16 @@
     </p>
   </a>
 </li>
+<li class="nav-item">
+  <a href="../admin_backend_ajuan" class="nav-link <?php if ($hal == 'ajuan') {
+                                                          echo 'active';
+                                                        } ?>">
+    <i class="nav-icon fas fa-file-alt"></i>
+    <p>
+      Ajuan
+    </p>
+  </a>
+</li>
 <!-- <li class="nav-item">
   <a href="../admin_backend_presensi" class="nav-link <?php if ($hal == 'presensi') {
                                                         echo 'active';

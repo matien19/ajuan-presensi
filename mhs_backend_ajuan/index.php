@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once "../database/config.php";
 $hal = 'ajuan_presensi';
 if (isset($_SESSION['peran'])) {
   if ($_SESSION['peran'] != 'mhs') {
@@ -71,11 +71,23 @@ if (isset($_SESSION['peran'])) {
 
                             <div class="form-group">
                               <label for="pilih_kelas">Kelas - Mata Kuliah <span class="text-danger">*</span></label>
+                              <?php
+                              $data_kelas = mysqli_query($con, "SELECT * FROM tbl_klsmatkul");
+                              $kelas_options = '';
+                              while ($row = mysqli_fetch_assoc($data_kelas)) {
+                                $id_matkul = $row['kode_matkul'];
+                                $data_matkul = mysqli_query($con, "SELECT * FROM tbl_matkul WHERE kode_matkul='$id_matkul'");
+                                $matkul_row = mysqli_fetch_assoc($data_matkul);
+                                $nidn = $row['nid'];
+                                $data_dosen = mysqli_query($con, "SELECT * FROM tbl_dosen WHERE nid='$nidn'");
+                                $dosen_row = mysqli_fetch_assoc($data_dosen);
+                                $kelas_options .= '<option value="' . $row['Id'] . '" data-matkul="' . $matkul_row['nama_ind'] . '" data-dosen="' . $dosen_row['nama'] . '">' . $row['kelas'] . ' | ' . $matkul_row['nama_ind'] . '</option>';
+                              }
+
+                              ?>
                               <select class="form-control" id="pilih_kelas" name="id_kelas" required>
                                 <option value="" selected disabled>-- Pilih Kelas Mata Kuliah --</option>
-                                <option value="1" data-matkul="Pemrograman Web" data-dosen="Budi Santoso, M.Kom">IF-A | Pemrograman Web</option>
-                                <option value="2" data-matkul="Basis Data" data-dosen="Siti Aminah, M.T">IF-B | Basis Data</option>
-                                <option value="3" data-matkul="Jaringan Komputer" data-dosen="Ahmad Fauzi, M.Eng">IF-A | Jaringan Komputer</option>
+                                <?php echo $kelas_options; ?>
                               </select>
                             </div>
 

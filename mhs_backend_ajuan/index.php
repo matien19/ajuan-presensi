@@ -61,7 +61,7 @@ if (isset($_SESSION['peran'])) {
                       </div>
                       <!-- /.card-header -->
                       <div class="card-body">
-                        <form action="proses_ajuan.php" method="POST" enctype="multipart/form-data">
+                        <form action="simpan.php" method="POST" enctype="multipart/form-data">
                           <div class="card-body">
 
                             <div class="form-group">

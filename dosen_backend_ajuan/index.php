@@ -54,26 +54,27 @@ if (isset($_SESSION['peran'])) {
                       </font>
                       <!-- /.card-header -->
                       <div class="card-body">
-                        <table class="table table-hover text-nowrap" id="example1">
-                          <thead>
-                            <tr>
-                              <th>No</th>
-                              <th>Mahasiswa</th>
-                              <th>Jurusan</th>
-                              <th>Kelas</th>
-                              <th>Tanggal Kuliah</th>
-                              <th>Keterangan</th>
-                              <th>Bukti</th>
-                              <th>Waktu Pengajuan</th>
-                              <th>Status</th>
-                              <th>Aksi</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <?php
-                            $no = 1;
-                            $nidn = $_SESSION['user'];
-                            $query_riwayat = mysqli_query($con, "
+                        <div class="table-responsive">
+                          <table class="table table-hover text-wrap">
+                            <thead>
+                              <tr>
+                                <th>No</th>
+                                <th>Mahasiswa</th>
+                                <th>Jurusan</th>
+                                <th>Kelas</th>
+                                <th>Tanggal Kuliah</th>
+                                <th>Keterangan</th>
+                                <th>Bukti</th>
+                                <th>Waktu Pengajuan</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <?php
+                              $no = 1;
+                              $nidn = $_SESSION['user'];
+                              $query_riwayat = mysqli_query($con, "
                               SELECT
                                   ap.*,
                                   k.*,
@@ -96,63 +97,64 @@ if (isset($_SESSION['peran'])) {
                               ORDER BY ap.created_at DESC
                           ");
 
-                            if (mysqli_num_rows($query_riwayat) > 0) {
-                              while ($row = mysqli_fetch_assoc($query_riwayat)) {
-                                $nama_mahasiswa = $row['nama_mahasiswa'];
-                                $jurusan        = $row['nama'];
-                                $mata_kuliah    = $row['mata_kuliah'];
-                                $nama_dosen     = $row['nama_dosen'];
+                              if (mysqli_num_rows($query_riwayat) > 0) {
+                                while ($row = mysqli_fetch_assoc($query_riwayat)) {
+                                  $nama_mahasiswa = $row['nama_mahasiswa'];
+                                  $jurusan        = $row['nama'];
+                                  $mata_kuliah    = $row['mata_kuliah'];
+                                  $nama_dosen     = $row['nama_dosen'];
 
 
-                                // Menentukan warna badge status
-                                $badge = 'badge-secondary';
-                                if ($row['status_ajuan'] == 'Menunggu')  $badge = 'badge-warning';
-                                if ($row['status_ajuan'] == 'Disetujui') $badge = 'badge-success';
-                                if ($row['status_ajuan'] == 'Ditolak')   $badge = 'badge-danger';
-                            ?>
-                                <tr>
-                                  <td><?= $no++; ?></td>
-                                  <td>
-                                    <?= $nama_mahasiswa; ?> - [<?= $row['id_mahasiswa']; ?>]
-                                  </td>
-                                  <td><?= $jurusan; ?></td>
-                                  <td>
-                                    <?= $row['kelas']; ?> - <?= $mata_kuliah; ?> (<?= $nama_dosen; ?>)
-                                  </td>
-                                  <td><?= date('d/m/Y', strtotime($row['tanggal_kuliah'])); ?></td>
-                                  <td><?= $row['keterangan'] ?></td>
-                                  <td><a href="../mhs_backend_ajuan/bukti_presensi/<?= $row['file_bukti']; ?>" target="_blank" class="btn btn-xs btn-info"><i class="fas fa-eye"></i> Lihat</a></td>
-                                  <td>
-                                    <?= date('d/m/Y', strtotime($row['created_at'])); ?><br>
-                                    <i class="fas fa-clock"></i> [<?= date('H:i', strtotime($row['created_at'])); ?>] WIB
-                                  </td>
-                                  <td><span class="badge <?= $badge; ?>"><?= $row['status_ajuan']; ?></span></td>
-                                  <td>
-                                    <?php if ($row['status_ajuan'] == 'Menunggu') {
-                                    ?>
-                                      <a href="update.php?id=<?= $row['id_ajuan']; ?>&aksi=acc" class="btn btn-xs btn-success" onclick="return confirm('Apakah Anda yakin ingin menyetujui ajuan ini?')">
-                                        <i class="fas fa-check"></i> Acc
-                                      </a>
-                                      <a href="update.php?id=<?= $row['id_ajuan']; ?>&aksi=tolak" class="btn btn-xs btn-danger" onclick="return confirm('Apakah Anda yakin ingin menolak ajuan ini?')">
-                                        <i class="fas fa-times"></i> Tolak
-                                      </a>
-                                    <?php
-                                    } else { ?>
-                                      <span class="text-muted"><i class="fas fa-lock"></i> Selesai</span>
-                                    <?php
-                                    } ?>
-                                  </td>
-                                </tr>
-                              <?php
-                              }
-                            } else {
+                                  // Menentukan warna badge status
+                                  $badge = 'badge-secondary';
+                                  if ($row['status_ajuan'] == 'Menunggu')  $badge = 'badge-warning';
+                                  if ($row['status_ajuan'] == 'Disetujui') $badge = 'badge-success';
+                                  if ($row['status_ajuan'] == 'Ditolak')   $badge = 'badge-danger';
                               ?>
-                              <tr>
-                                <td colspan="5" class="text-center text-muted py-3">Belum ada riwayat pengajuan presensi.</td>
-                              </tr>
-                            <?php } ?>
-                          </tbody>
-                        </table>
+                                  <tr>
+                                    <td><?= $no++; ?></td>
+                                    <td>
+                                      <?= $nama_mahasiswa; ?> - [<?= $row['id_mahasiswa']; ?>]
+                                    </td>
+                                    <td><?= $jurusan; ?></td>
+                                    <td>
+                                      <?= $row['kelas']; ?> - <?= $mata_kuliah; ?> (<?= $nama_dosen; ?>)
+                                    </td>
+                                    <td><?= date('d/m/Y', strtotime($row['tanggal_kuliah'])); ?></td>
+                                    <td><?= $row['keterangan'] ?></td>
+                                    <td><a href="../mhs_backend_ajuan/bukti_presensi/<?= $row['file_bukti']; ?>" target="_blank" class="btn btn-xs btn-info"><i class="fas fa-eye"></i> Lihat</a></td>
+                                    <td>
+                                      <?= date('d/m/Y', strtotime($row['created_at'])); ?><br>
+                                      <i class="fas fa-clock"></i> [<?= date('H:i', strtotime($row['created_at'])); ?>] WIB
+                                    </td>
+                                    <td><span class="badge <?= $badge; ?>"><?= $row['status_ajuan']; ?></span></td>
+                                    <td>
+                                      <?php if ($row['status_ajuan'] == 'Menunggu') {
+                                      ?>
+                                        <a href="update.php?id=<?= $row['id_ajuan']; ?>&aksi=acc" class="btn btn-xs btn-success" onclick="return confirm('Apakah Anda yakin ingin menyetujui ajuan ini?')">
+                                          <i class="fas fa-check"></i> Acc
+                                        </a>
+                                        <a href="update.php?id=<?= $row['id_ajuan']; ?>&aksi=tolak" class="btn btn-xs btn-danger" onclick="return confirm('Apakah Anda yakin ingin menolak ajuan ini?')">
+                                          <i class="fas fa-times"></i> Tolak
+                                        </a>
+                                      <?php
+                                      } else { ?>
+                                        <span class="text-muted"><i class="fas fa-lock"></i> Selesai</span>
+                                      <?php
+                                      } ?>
+                                    </td>
+                                  </tr>
+                                <?php
+                                }
+                              } else {
+                                ?>
+                                <tr>
+                                  <td colspan="5" class="text-center text-muted py-3">Belum ada riwayat pengajuan presensi.</td>
+                                </tr>
+                              <?php } ?>
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                       <!-- /.card-body -->
                     </div>

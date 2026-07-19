@@ -61,7 +61,7 @@ if (isset($_SESSION['peran'])) {
                           <i class="nav-icon fas fa-file-excel"></i> Import Data
                         </button> -->
                         <div class="table-responsive">
-                          <table class="table table-hover text-wrap table-bordered" id="example1">
+                          <table class="table table-hover text-wrap table-bordered" >
                             <thead>
                               <tr>
                                 <th>No</th>

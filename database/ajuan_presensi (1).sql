@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 11, 2026 at 08:22 AM
+-- Generation Time: Jul 19, 2026 at 10:33 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.29
 
@@ -36,19 +36,17 @@ CREATE TABLE `ajuan_presensi` (
   `file_bukti` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `status_ajuan` enum('Menunggu','Disetujui','Ditolak') COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'Menunggu',
   `catatan_admin` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `ajuan_presensi`
 --
 
-INSERT INTO `ajuan_presensi` (`id_ajuan`, `id_mahasiswa`, `id_kelas`, `tanggal_kuliah`, `keterangan`, `file_bukti`, `status_ajuan`, `catatan_admin`, `created_at`, `updated_at`) VALUES
-(1, '42421079', 1, '2026-07-02', 'sad', 'bukti_42421079_1783529073.jpg', 'Menunggu', NULL, '2026-07-08 16:44:33', NULL),
-(2, '42421079', 1, '2026-07-10', 'sss', 'bukti_42421079_1783529136.jpg', 'Disetujui', NULL, '2026-07-08 16:45:36', '2026-07-11 05:29:11'),
-(3, '42421033', 1, '2026-07-10', 'bjb', 'bukti_42421033_1783744055.jpg', 'Ditolak', NULL, '2026-07-11 04:27:35', '2026-07-11 05:29:02'),
-(4, '42421079', 1, '2026-07-12', 'aaaad', 'bukti_42421079_1783744294.jpg', 'Disetujui', NULL, '2026-07-11 04:31:34', '2026-07-11 05:28:56');
+INSERT INTO `ajuan_presensi` (`id_ajuan`, `id_mahasiswa`, `id_kelas`, `tanggal_kuliah`, `keterangan`, `file_bukti`, `status_ajuan`, `catatan_admin`, `created_at`) VALUES
+(7, '42421033', 4, '2026-07-21', 'aaa', 'bukti_42421033_1784454127.png', 'Disetujui', NULL, '2026-07-19 16:42:07'),
+(8, '42421033', 4, '2026-07-20', 'asda', 'bukti_42421033_1784454360.jpeg', 'Ditolak', NULL, '2026-07-19 16:46:00'),
+(9, '42421033', 5, '2026-07-21', 'aaa', 'bukti_42421033_1784456787.jpg', 'Menunggu', NULL, '2026-07-19 17:26:27');
 
 -- --------------------------------------------------------
 
@@ -70,7 +68,7 @@ CREATE TABLE `tbl_dosen` (
 --
 
 INSERT INTO `tbl_dosen` (`nid`, `nama`, `kontak`, `kelamin`, `stat`, `foto`) VALUES
-('1233', 'aass', '4353234', 'P', 'A', ''),
+('1233', 'aaaa', '4353234', 'P', 'A', ''),
 ('32432', 'aaa333', '2342233', 'L', 'T', 'template/img/dosen-32432-1783239826.JPG');
 
 -- --------------------------------------------------------
@@ -192,7 +190,7 @@ INSERT INTO `tbl_pengguna` (`Id`, `username`, `password`, `peran`, `nama`) VALUE
 (391, '42421033', 'fbb567222775c6f30832e1113b6f6d87ff04a173', 'mhs', 'sss'),
 (392, '42421033', 'fbb567222775c6f30832e1113b6f6d87ff04a173', 'mhs', 'sss'),
 (393, '32432', 'ef36a25f2e942d6e0a50c2f4798443d6235112c7', 'dosen', 'aaa333'),
-(394, '1233', 'cdd6dba996d0049e2a45b8615f6085ac3f8bc130', 'dosen', 'aass'),
+(394, '1233', 'cdd6dba996d0049e2a45b8615f6085ac3f8bc130', 'dosen', 'aaaa'),
 (395, '42421079', '55354346abcf1451ce343fb1aa4cafaeed02907e', 'mhs', 'safur');
 
 --
@@ -246,7 +244,7 @@ ALTER TABLE `tbl_pengguna`
 -- AUTO_INCREMENT for table `ajuan_presensi`
 --
 ALTER TABLE `ajuan_presensi`
-  MODIFY `id_ajuan` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_ajuan` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tbl_klsmatkul`

@@ -76,7 +76,7 @@ if (isset($_SESSION['peran'])) {
                           <thead>
                             <tr>
                               <th>No</th>
-                              <th>NIM</th>
+                              <th>NIDN</th>
                               <th>Nama</th>
                               <th>
                                 <center>Kontak</center>

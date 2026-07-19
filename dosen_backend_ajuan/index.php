@@ -2,7 +2,7 @@
 require_once '../database/config.php';
 $hal = 'ajuan';
 if (isset($_SESSION['peran'])) {
-  if ($_SESSION['peran'] != 'Admin') {
+  if ($_SESSION['peran'] != 'dosen') {
     echo "<script>window.location='../auth/logout.php';</script>";
   }
 } else {
@@ -16,7 +16,7 @@ if (isset($_SESSION['peran'])) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Admin Panel | Ajuan </title>
+  <title>Dosen Panel | Ajuan </title>
 
   <?php
   include "../linksheet.php";
@@ -36,7 +36,7 @@ if (isset($_SESSION['peran'])) {
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
           <?php
-          include '../sidebar_admin.php';
+          include '../sidebar_dosen.php';
           ?>
 
           <!-- Content Wrapper. Contains page content -->
@@ -54,12 +54,6 @@ if (isset($_SESSION['peran'])) {
                       </font>
                       <!-- /.card-header -->
                       <div class="card-body">
-                        <!-- <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-tambahdata" style="background-color:#86090f">
-                          <i class="nav-icon fas fa-plus"></i> Tambah Data
-                        </button> -->
-                        <!-- <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-importdata">
-                          <i class="nav-icon fas fa-file-excel"></i> Import Data
-                        </button> -->
                         <table class="table table-hover text-nowrap">
                           <thead>
                             <tr>
@@ -77,7 +71,11 @@ if (isset($_SESSION['peran'])) {
                           <tbody>
                             <?php
                             $no = 1;
-                            $query_riwayat = mysqli_query($con, "SELECT * FROM ajuan_presensi ORDER BY created_at DESC");
+                            $nidn = $_SESSION['user'];
+                            $query_riwayat = mysqli_query($con, "SELECT ap.*
+                            FROM ajuan_presensi ap
+                            INNER JOIN tbl_klsmatkul k ON ap.id_kelas = k.id
+                            WHERE k.nid = '$nidn' ORDER BY created_at DESC");
 
                             if (mysqli_num_rows($query_riwayat) > 0) {
                               while ($row = mysqli_fetch_assoc($query_riwayat)) {

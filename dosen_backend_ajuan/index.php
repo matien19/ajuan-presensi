@@ -54,12 +54,13 @@ if (isset($_SESSION['peran'])) {
                       </font>
                       <!-- /.card-header -->
                       <div class="card-body">
-                        <table class="table table-hover text-nowrap">
+                        <table class="table table-hover text-nowrap" id="example1">
                           <thead>
                             <tr>
                               <th>No</th>
                               <th>Mahasiswa</th>
                               <th>Jurusan</th>
+                              <th>Kelas</th>
                               <th>Tanggal Kuliah</th>
                               <th>Keterangan</th>
                               <th>Bukti</th>
@@ -72,19 +73,37 @@ if (isset($_SESSION['peran'])) {
                             <?php
                             $no = 1;
                             $nidn = $_SESSION['user'];
-                            $query_riwayat = mysqli_query($con, "SELECT ap.*
-                            FROM ajuan_presensi ap
-                            INNER JOIN tbl_klsmatkul k ON ap.id_kelas = k.id
-                            WHERE k.nid = '$nidn' ORDER BY created_at DESC");
+                            $query_riwayat = mysqli_query($con, "
+                              SELECT
+                                  ap.*,
+                                  k.*,
+                                  m.nama AS nama_mahasiswa,
+                                  j.nama,
+                                  mk.nama_ind AS mata_kuliah,
+                                  d.nama AS nama_dosen
+                              FROM ajuan_presensi ap
+                              INNER JOIN tbl_klsmatkul k
+                                  ON ap.id_kelas = k.id
+                              INNER JOIN tbl_mahasiswa m
+                                  ON ap.id_mahasiswa = m.nim
+                              LEFT JOIN tbl_jurusan j
+                                  ON m.kode_jurusan = j.kode_jurusan
+                              LEFT JOIN tbl_matkul mk
+                                  ON k.kode_matkul = mk.kode_matkul
+                              LEFT JOIN tbl_dosen d
+                                  ON k.nid = d.nid
+                              WHERE k.nid = '$nidn'
+                              ORDER BY ap.created_at DESC
+                          ");
 
                             if (mysqli_num_rows($query_riwayat) > 0) {
                               while ($row = mysqli_fetch_assoc($query_riwayat)) {
-                                $nim = $row['id_mahasiswa'];
-                                $query_mahasiswa = mysqli_query($con, "SELECT * FROM tbl_mahasiswa WHERE nim='$nim'");
-                                $data_mahasiswa = mysqli_fetch_assoc($query_mahasiswa);
-                                $jurusan = $data_mahasiswa['kode_jurusan'];
-                                $query_jurusan = mysqli_query($con, "SELECT * FROM tbl_jurusan WHERE kode_jurusan='$jurusan'");
-                                $data_jurusan = mysqli_fetch_assoc($query_jurusan);
+                                $nama_mahasiswa = $row['nama_mahasiswa'];
+                                $jurusan        = $row['nama'];
+                                $mata_kuliah    = $row['mata_kuliah'];
+                                $nama_dosen     = $row['nama_dosen'];
+
+
                                 // Menentukan warna badge status
                                 $badge = 'badge-secondary';
                                 if ($row['status_ajuan'] == 'Menunggu')  $badge = 'badge-warning';
@@ -94,11 +113,14 @@ if (isset($_SESSION['peran'])) {
                                 <tr>
                                   <td><?= $no++; ?></td>
                                   <td>
-                                    <?= $data_mahasiswa['nama']; ?> - [<?= $data_mahasiswa['nim']; ?>]
+                                    <?= $nama_mahasiswa; ?> - [<?= $row['id_mahasiswa']; ?>]
                                   </td>
-                                  <td><?= $data_jurusan['nama']; ?></td>
+                                  <td><?= $jurusan; ?></td>
+                                  <td>
+                                    <?= $row['kelas']; ?> - <?= $mata_kuliah; ?> (<?= $nama_dosen; ?>)
+                                  </td>
                                   <td><?= date('d/m/Y', strtotime($row['tanggal_kuliah'])); ?></td>
-                                  <td><?= htmlspecialchars(substr($row['keterangan'], 0, 30)) . '...'; ?></td>
+                                  <td><?= $row['keterangan'] ?></td>
                                   <td><a href="../mhs_backend_ajuan/bukti_presensi/<?= $row['file_bukti']; ?>" target="_blank" class="btn btn-xs btn-info"><i class="fas fa-eye"></i> Lihat</a></td>
                                   <td>
                                     <?= date('d/m/Y', strtotime($row['created_at'])); ?><br>
